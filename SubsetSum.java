@@ -14,25 +14,22 @@ public class SubsetSum
     void solve(int[] d, int sum)
     {
         int m = 0, n = d.length;
-        int[] x = {};
-        ArrayDeque q = new ArrayDeque(2*n);
+        int[] x = {}; // arrays of 0 or 1 which represents selected or not selected integer in array d
+        ArrayDeque q = new ArrayDeque((int) Math.pow(2, n)); // create an empty queue for storing array x
         q.add(x);
         System.out.println("Set of "+Arrays.toString(d));
         
         while(!q.isEmpty())
         {
-            x = (int[]) q.poll(); m = x.length;
-            int s = sum(d,x); 
-            /*
-            System.out.println("-------------------------\npoll "+Arrays.toString(x));
-            System.out.println("sum "+s);
-            */
-            if(s > sum) {}
+            x = (int[]) q.poll(); m = x.length; // dequeue the first array x from queue
+            int s = sum(d,x); // sum of selected number in array d 
+            
+            if(s > sum) {} // bound, if s is more than sum, we dont have to select more integer in array d
             else
             {
-                if(m == n) 
+                if(m == n) // finish when determine to select or not select all integer in array d
                 {
-                    if(s == sum)
+                    if(s == sum) // this is subset of array d which has sum equal to "sum" value
                     {
                         count += 1;
                         print(d,x);
@@ -43,14 +40,12 @@ public class SubsetSum
                     
                     int[] x0 = Arrays.copyOf(x, m+1);
                     int[] x1 = Arrays.copyOf(x, m+1);
+                    // create new x array, has one more space than array x
                     x0[m] = 0; x1[m] = 1;
+                    // x0 last index represent not selection of integer in array d at index m
+                    // x1 last index represent selection of integer in array d at index m  
                     m += 1;
-                    /*
-                    System.out.println("x0 "+Arrays.toString(x0));
-                    System.out.println("s0 "+s0);
-                    System.out.println("x1 "+Arrays.toString(x1));
-                    System.out.println("s1 "+s1+"\n-------------------------");
-                    */
+                    
                     q.add(x0);
                     q.add(x1);
                 }
@@ -58,7 +53,7 @@ public class SubsetSum
         }
         System.out.println("for sum = "+sum);
     }
-    
+    // calculate sum of selected integer in array d
     int sum(int[] d, int[] x)
     {
         int sum = 0;
@@ -83,6 +78,7 @@ public class SubsetSum
     
     public static void main(String[] args) throws FileNotFoundException, IOException 
     {
+        // input file is text file with 1st line is set of integer(one space btw each member) and 2nd line is given sum
         BufferedReader br = new BufferedReader(new FileReader("input.txt"));
         String line = br.readLine();
         String[] read = line.split(" ");
